@@ -1,0 +1,2 @@
+# notifIPaddress_by_python
+ddnsサービスの通知をpythonを用いて実装したもの
