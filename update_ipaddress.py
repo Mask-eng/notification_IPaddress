@@ -18,12 +18,8 @@
 # - message
 #
 # -> exac class(data)
-
-# Variable chara
-MYDNS_POST_URL      =   'https://www.mydns.jp/login.html'
-WEBHOOK_URL         =    credential.WEBHOOK_URL
-
 # to post lib
+
 import requests
 from requests.auth import HTTPBasicAuth
 
@@ -33,6 +29,11 @@ import json
 # password
 import credential
 
+# Variable chara
+MYDNS_URL      =   'https://www.mydns.jp/login.html'
+WEBHOOK_URL         =    credential.WEBHOOK_URL
+
+
 #post_to_mydns.py
 print(credential.MYDNS_USER, credential.MYDNS_PASSWORD)
 
@@ -40,53 +41,65 @@ print(credential.MYDNS_USER, credential.MYDNS_PASSWORD)
 # post to mydns service
 #------------------------------
 def post_to_mydns(username, password):
-    #print(username, password, post_url)
-
     response_from_mydns = requests.get(
             MYDNS_URL, auth=HTTPBasicAuth( username, password )
             )
-    #print(response.status_code)
-    #return response.status_code
     return response_from_mydns
 ###end
 
 result_from_mydns = post_to_mydns(credential.MYDNS_USER, credential.MYDNS_PASSWORD)
-print(result.status_code)
-print(result.text)
-print(result.json())
 
 
 #------------------------------
 # post to slack
 #------------------------------
-def post_to_slack(message='hoge'):
-    #slack_data = json.dumps({'blocks': message})
-    print(webhook_url)
-    #print(message)
-    response = requests.post(
-            webhook_url,
-            json=({"text" :"I'm posting to Slack via webhook"}),
+def post_to_slack(payload_message):
+    print(payload_message)
+    response_from_slack = requests.post(
+            WEBHOOK_URL,
+            json.dumps({"text" : payload_message }),
             headers={'Content-Type': 'application/json'}
             )
-    print(response.status_code)
-    print(response.headers)
-    print(response.encoding)
-    print(response.text)
-    print(response.json())
-    print ('-------')
-    print(response.raw)
+
+## exac
+#result_from_mydns = post_to_mydns(credential.MYDNS_USER, credential.MYDNS_PASSWORD)
+###failed message example
+# @channnel
+# 
+# Request to mydns returned an error %s, the response is:\n%s
+# %  (result_from_mydns.status_code, result_from_mydns.text)
+# 
+#####
 
 
-#post_to_slack()
-#post_to_mydns(credential.userid , credential.userpass)
-
-#print(post_to_mydns(credential.userid , credential.userpass))
-#result = post_to_mydns(credential.userid , credential.userpass)
-#print( result.status_code)
-
-def hoge():
-    if response.status_code != 200:
-        raise ValueError(
-            'Request to slack returned an error %s, the response is:\n%s'
-            % (response.status_code, response.text)
+succeed_message='Login and IP address notification succeeded.'
+failed_message=(
+            '<!channel>\r' + 
+            'Request to mydns returned an error ' +  
+            '`' + str(result_from_mydns.status_code) + '`'
+            ', the response is:\r' + 
+            '```' + result_from_mydns.text + '```'
         )
+#print(failed_message)
+
+#if result_from_mydns.status_code == 200:
+#    #post_to_slack('Login and IP address notification succeeded.')
+#    post_to_slack(succeed_message)
+#
+#else:
+#    #post_to_slack(result_from_mydns.text)
+#    post_to_slack(failed_message)
+
+def check_http_response(response):
+    if response != 200:
+        # post success message.
+        message = succeed_message
+        return message
+    else:
+        # post failed message and log.
+        message = failed_message
+        return message 
+print('hoge')
+print(result_from_mydns.status_code)
+print(check_http_response(result_from_mydns.status_code))
+post_to_slack(check_http_response(result_from_mydns.status_code))
