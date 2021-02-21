@@ -10,6 +10,13 @@ mydns（ddnsサービス）へのIPaddress更新通知をpythonを用いて実�
 - Slack Incoming Webhook
 
 # 実装
+## スクリプト構成
+```
+notifIPaddress_by_python/
+|- update_ipaddress.py		# main
+|- credential.py		# .gitignore対象
+```
+
 ## 更新通知先URL
 - https://www.mydns.jp/login.html
 

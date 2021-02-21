@@ -10,9 +10,6 @@
 #
 # to notify updated address infomation
 # -> use incoming webhooks(slack)
-#
-# -> exac class(data)
-# to post lib
 
 #------------------------------
 # Library for 
