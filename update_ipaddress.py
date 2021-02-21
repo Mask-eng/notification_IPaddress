@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# revision 0
+# revision 1.0
 #
 # description:
 # This script works to notify of the updated address information.
