@@ -1,9 +1,17 @@
-# notifIPaddress_by_python
+# notification_IPaddress
 mydns（ddnsサービス）へのIPaddress更新通知をpythonを用いて実装したもの
 更新通知には、HTTP通信のPOSTを利用して行う
 
 更新結果の成否については、Slack (channnel:mydns_update-notification )に投稿する
 
+# 動作環境
+本スクリプトを動かすのに必要なものは下記である
+- Python 3.5+.
+- requests 2.12.3+
+
+なお推奨環境としては下記としている
+- Python 3.8+.
+- requests 2.24+.
 
 # 利用サービス
 - MyDNS(https://www.mydns.jp/)
@@ -15,7 +23,11 @@ mydns（ddnsサービス）へのIPaddress更新通知をpythonを用いて実�
 notifIPaddress_by_python/
 |- update_ipaddress.py		# main
 |- credential.py		# .gitignore対象
+|- credential.sample.py         # sample credentail configuration
 ```
+本リポジトリに"credential.py"は含まれない
+そのため、"credential.sample.py"の内容を参考に適宜設定を行う必要がある
+
 
 ## 更新通知先URL
 - https://www.mydns.jp/login.html
